@@ -5,13 +5,13 @@ import requests
 def get_links(url):
     response = requests.get(url)
     data = response.text
-    soup = BeautifulSoup(data, 'html')
+    soup = BeautifulSoup(data, 'html.parser')
 
     links = []
     for link in soup.find_all('img'):
         link_url = link.get('src')
 
-        if link_url is not None and link_url.startswith('http'):
+        if link_url is not None and link_url.startswith('https'):
             links.append(link_url + '\n')
 
     write_to_file(links)
@@ -28,6 +28,6 @@ def get_all_links(url):
         get_all_links(link)
 
 
-r = 'https://bgoonz-blog.netlify.app'
+r = 'https://bgoonz-blog.netlify.app/blog/'
 write_to_file([r])
 get_all_links(r)
